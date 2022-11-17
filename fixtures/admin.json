@@ -1,0 +1,2 @@
+
+[{"model": "users.user", "pk": 1, "fields": {"password": "argon2$argon2id$v=19$m=102400,t=2,p=8$NTBzRnAyNHlnZjBEWDB5b2lUbGNFOQ$eqy4BgHOk2kxWIlNW+e3BHZwleB/Lc/2zvqvVYX97OU", "last_login": "2022-11-17T11:34:08.100Z", "is_superuser": true, "id": "37aa4b3b-009b-4412-bc9c-eb89d4f70e07", "username": "khayalfarajov", "first_name": "Khayal", "last_name": "Farajov", "email": "khayalfarajov@gmail.com", "is_staff": true, "is_active": true, "date_joined": "2022-11-17T10:41:46.353Z", "groups": [], "user_permissions": []}}]
