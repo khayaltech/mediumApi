@@ -7,6 +7,9 @@ up:
 down:
 	docker compose -f compose-local.yml down
 
+config:
+	docker compose -f compose-local.yml config
+
 show_logs:
 	docker compose -f compose-local.yml logs
 
