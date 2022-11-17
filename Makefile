@@ -2,7 +2,7 @@ build:
 	docker compose -f compose-local.yml up --build -d --remove-orphans
 
 up:
-	docker compose -f compose-local.yml up -d
+	docker compose -f compose-local.yml up
 
 down:
 	docker compose -f compose-local.yml down
@@ -29,7 +29,12 @@ superuser:
 volume:
 	docker volume inspect mediumapi_local_postgres_data
 
+black:
+	docker compose -f compose-local.yml exec api black --exclude=migrations --exclude=env .
+
+isort:
+	docker compose -f compose-local.yml exec api isort . --skip env --skip migrations
 
 
-
-
+flake8:
+	docker compose -f compose-local.yml exec api flake8 .
