@@ -1,5 +1,5 @@
-from .base import *
-from .base import env
+from .base import * # noqa
+from .base import env # noqa
 
 DEBUG = True
 
@@ -13,4 +13,4 @@ SECRET_KEY = env(
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 
 # SECRET_KEY = 'django-insecure-uz(cebeajnd7jekvt(hh*s-xbs9=a0mds))r+0)5g@!4*7(7i@'
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8080']
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
