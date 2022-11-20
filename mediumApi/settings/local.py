@@ -1,5 +1,5 @@
-from .base import * # noqa
-from .base import env # noqa
+from .base import *  # noqa
+from .base import env  # noqa
 
 DEBUG = True
 
@@ -22,8 +22,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = env("EMAIL_HOST", default="mailhog")
 EMAIL_USE_TLS = True
 EMAIL_PORT = env("EMAIL_PORT")
-EMAIL_HOST_USER ='khayalfarajov@gmail.com'
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = "khayalfarajov@gmail.com"
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 DOMAIN = env("DOMAIN")
 SITE_NAME = "Medium Api"
 DEFAULT_FROM_EMAIL = "khayalfarajov@gmail.com"
