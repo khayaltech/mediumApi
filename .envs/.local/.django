@@ -1,0 +1,11 @@
+CELERY_BROKER=redis://redis:6379/0
+CELERY_BACKEND=redis://redis:6379/0
+
+DOMAIN=locahost:8000
+
+CELERY_FLOWER_USER=admin
+CELERY_FLOWER_PASSWORD=admin123456
+
+
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = "fsynsfdaqumytajf"
