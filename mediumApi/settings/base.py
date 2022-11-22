@@ -158,7 +158,7 @@ CELERY_RESULT_SERIALIZER = "json"
 
 
 REST_FRAMEWORK = {
-    "EXCEPTION_HANDLER": "core_apps.common.exceptions.common_exception_handler",
+    "EXCEPTION_HANDLER": "apps.common.exceptions.common_exception_handler",
     "NON_FIELD_ERRORS_KEY": "error",
 
 }

@@ -1,6 +1,6 @@
 POSTGRES_HOST=postgres
 POSTGRES_PORT=5432
-POSTGRES_DB=mediumApi
+POSTGRES_DB=mymedium
 POSTGRES_USER=khayalfarajov
 POSTGRES_PASSWORD=2001200198
-DATABASE_URL=postgres://khayalfarajov:2001200198@127.0.0.1:5432/mediumApi
+DATABASE_URL=postgres://khayalfarajov:2001200198@127.0.0.1:5432/mymedium

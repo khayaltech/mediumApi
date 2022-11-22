@@ -5,7 +5,6 @@ from django.dispatch import receiver
 
 from mediumApi.settings.base import AUTH_USER_MODEL
 from apps.profiles.models import Profile
-
 logger = logging.getLogger(__name__)
 
 
