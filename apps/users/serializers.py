@@ -1,10 +1,7 @@
 from django.contrib.auth import get_user_model
-from django_countries.serializer_fields import CountryField
-from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 
 User = get_user_model()
-
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -20,7 +17,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         """Initializing fields and model"""
 
         model = User
-        fields = ["email", "username","first_name", "last_name", "password"]
+        fields = ["email", "username", "first_name", "last_name", "password", "token"]
 
     def validate(self, attrs):
         username = attrs.get("username", "")
@@ -31,3 +28,20 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+
+
+class LoginSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(max_length=68, min_length=6, write_only=True)
+
+    class Meta:
+        model = User
+        fields = ["email", "username", "token", "password"]
+        read_only_fields = ["token"]
+
+
+class EmailVerificationSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=555)
+
+    class Meta:
+        model = User
+        fields = ["token"]

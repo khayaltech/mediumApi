@@ -32,11 +32,7 @@ THIRD_PARTY_APPS = [
     "drf_yasg",
     "corsheaders",
 ]
-LOCAL_APPS = [
-    "apps.users",
-    "apps.common",
-    "apps.profiles"
-]
+LOCAL_APPS = ["apps.users", "apps.common", "apps.profiles"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -156,13 +152,17 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 
 
-
 REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "apps.common.exceptions.common_exception_handler",
     "NON_FIELD_ERRORS_KEY": "error",
-
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
 }
 
+SIMPLE_JWT = {
+    "ROTATE_REFRESH_TOKENS": True,
+}
 
 LOGGING = {
     "version": 1,
@@ -182,3 +182,6 @@ LOGGING = {
     },
     "root": {"level": "INFO", "handlers": ["console"]},
 }
+
+
+SITE_NAME = "Medium Api"

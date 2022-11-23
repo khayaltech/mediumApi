@@ -1,14 +1,19 @@
 import uuid
+from datetime import datetime, timedelta
 
+import jwt
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .managers import CustomUserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+
     pkid = models.BigAutoField(primary_key=True, editable=False)
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     username = models.CharField(
@@ -21,6 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    is_verified = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(default=timezone.now)
     USERNAME_FIELD = "email"
@@ -41,3 +47,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+
+    @property
+    def token(self):
+        refresh = RefreshToken.for_user(self)
+
+        return {
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        }

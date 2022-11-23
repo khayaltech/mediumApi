@@ -3,8 +3,9 @@ import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from mediumApi.settings.base import AUTH_USER_MODEL
 from apps.profiles.models import Profile
+from mediumApi.settings.base import AUTH_USER_MODEL
+
 logger = logging.getLogger(__name__)
 
 
