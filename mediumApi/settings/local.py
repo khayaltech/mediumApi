@@ -17,7 +17,6 @@ ALLOWED_HOSTS = ["localhost"]
 CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
 
 
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = env("EMAIL_HOST", default="mailhog")
 EMAIL_PORT = env("EMAIL_PORT")
