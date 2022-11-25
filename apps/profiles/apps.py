@@ -8,4 +8,4 @@ class ProfilesConfig(AppConfig):
     verbose_name = _("Profiles")
 
     def ready(self):
-        from apps.profiles import signals
+        from apps.profiles import signals  # noqa
