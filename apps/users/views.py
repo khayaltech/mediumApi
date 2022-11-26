@@ -9,13 +9,14 @@ from rest_framework import response, status
 from rest_framework.generics import GenericAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from apps.common.tasks import send_email
+
 from .models import User
 from .serializers import (
     EmailVerificationSerializer,
     LoginSerializer,
     RegisterSerializer,
 )
-from .tasks import send_email
 
 
 class RegisterApiView(GenericAPIView):

@@ -4,7 +4,9 @@ from rest_framework import generics, permissions, response, status
 from rest_framework.exceptions import NotFound
 from rest_framework.views import APIView
 
-from .exceptions import NotYourProfile
+from apps.common.tasks import send_email
+
+from .exceptions import CantFollowYourself, NotYourProfile
 from .models import Profile
 from .paginations import ProfilePagination
 from .renderers import ProfileJSONRenderer, ProfilesJSONRenderer
@@ -89,8 +91,90 @@ class GetProfileFollower(generics.RetrieveAPIView):
         return response.Response(formatted_response, status=status.HTTP_200_OK)
 
 
+class FollowUnfollowApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = FollowingSerializer
+
+    def get(self, request, username):
+        try:
+            userprofile = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise NotFound("Profile with that username does not exist")
+
+        userprofile_instance = Profile.objects.get(user__pkid=userprofile.pkid)
+        my_following_list = userprofile_instance.following_list()
+        serializer = FollowingSerializer(my_following_list, many=True)
+        formatted_response = {
+            "status_code": status.HTTP_200_OK,
+            "users_i_follow": serializer.data,
+            "num_following": len(serializer.data),
+        }
+        return response.Response(formatted_response, status=status.HTTP_200_OK)
+
+    def post(self, request, username):
+        try:
+            userprofile = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise NotFound("Profile with that username does not exist")
+
+        if userprofile == request.user:
+            raise CantFollowYourself
+
+        userprofile_instance = Profile.objects.get(user__pkid=userprofile.pkid)
+        current_user_profile = request.user.profile
+
+        if current_user_profile.check_following(userprofile_instance):
+            formatted_response = {
+                "status_code": status.HTTP_400_BAD_REQUEST,
+                "errors": f"You already follow {userprofile.username}",
+            }
+            return response.Response(
+                formatted_response, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        current_user_profile.follow(userprofile_instance)
+        data = {
+            "email_body": f"Hi there {userprofile.username}!!,the user {current_user_profile.user.username} now follows you",
+            "to_email": userprofile.email,
+            "email_subject": "A new user follows you",
+        }
+        send_email.delay(data)
+        return response.Response(
+            {
+                "status_code": status.HTTP_200_OK,
+                "detail": f"You now follow {userprofile.username}",
+            }
+        )
+
+    def delete(self, request, username):
+        try:
+            userprofile = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise NotFound("User with that username does not exist")
+
+        userprofile_instance = Profile.objects.get(user__pkid=userprofile.pkid)
+        current_user_profile = request.user.profile
+
+        if not current_user_profile.check_following(userprofile_instance):
+            formatted_response = {
+                "status_code": status.HTTP_400_BAD_REQUEST,
+                "errors": f"You do not follow {userprofile.username}",
+            }
+            return response.Response(
+                formatted_response, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        current_user_profile.unfollow(userprofile_instance)
+        formatted_response = {
+            "status_code": status.HTTP_200_OK,
+            "detail": f"You have unfollowed {userprofile.username}",
+        }
+        return response.Response(formatted_response, status=status.HTTP_200_OK)
+
+
 ##########
 profileListView = ProfileListAPIView.as_view()
 profilDetailView = ProfileDetailApiView.as_view()
 profileUpdateView = ProfileUpdateView.as_view()
 getFollowerView = GetProfileFollower.as_view()
+followunfollowView = FollowUnfollowApiView.as_view()
