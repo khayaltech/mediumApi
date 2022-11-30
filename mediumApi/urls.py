@@ -28,6 +28,11 @@ urlpatterns = [
     ),
     path("api/v1/auth/", include("apps.users.urls")),
     path("api/v1/profiles/", include("apps.profiles.urls")),
+    path("api/v1/articles/", include("apps.articles.urls")),
+    path("api/v1/ratings/", include("apps.ratings.urls")),
+    path("api/v1/comments/", include("apps.comments.urls")),
+    path("api/v1/votes/", include("apps.reactions.urls")),
+    path("api/v1/favorite/", include("apps.favorites.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

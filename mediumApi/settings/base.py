@@ -33,7 +33,16 @@ THIRD_PARTY_APPS = [
     "drf_yasg",
     "corsheaders",
 ]
-LOCAL_APPS = ["apps.users", "apps.common", "apps.profiles"]
+LOCAL_APPS = [
+    "apps.users",
+    "apps.common",
+    "apps.profiles",
+    "apps.articles",
+    "apps.ratings",
+    "apps.comments",
+    "apps.reactions",
+    "apps.favorites",
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
