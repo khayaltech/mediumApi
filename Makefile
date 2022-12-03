@@ -35,6 +35,20 @@ black:
 isort:
 	docker compose -f compose-local.yml exec api isort . --skip env --skip migrations
 
+black-check:
+	docker compose -f compose-local.yml exec api black --check --exclude=migrations --exclude=env .
+
+
+isort-check:
+	docker compose -f compose-local.yml exec api isort . --check-only --skip env --skip migrations
+
+
+black-diff:
+	docker compose -f compose-local.yml exec api black --exclude=migrations --exclude=env .
+
+isort-diff:
+	docker compose -f compose-local.yml exec api isort . --diff --skip env --skip migrations
+
 
 flake8:
 	docker compose -f compose-local.yml exec api flake8 .
